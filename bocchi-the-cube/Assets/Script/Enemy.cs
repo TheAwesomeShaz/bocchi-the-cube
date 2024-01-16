@@ -6,7 +6,6 @@ public class EnemyController : MonoBehaviour
 {
     [SerializeField] private float moveSpeed = 10f;
     [SerializeField] private int health = 20;
-    [SerializeField] private Rigidbody rb;
     [SerializeField] private GameObject deathVFX;
     [SerializeField] private GameObject hurtVFX;
 
@@ -35,7 +34,6 @@ public class EnemyController : MonoBehaviour
     private void Start()
     {
         target = GameController.Instance.playerTransform;
-        rb = GetComponent<Rigidbody>(); 
     }
 
     private void Update()
