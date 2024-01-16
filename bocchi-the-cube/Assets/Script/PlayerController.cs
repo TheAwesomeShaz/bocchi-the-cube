@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -49,6 +45,10 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             currentMoveSpeed = moveSpeed * 2;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            currentMoveSpeed = moveSpeed ;
         }
     }
   
