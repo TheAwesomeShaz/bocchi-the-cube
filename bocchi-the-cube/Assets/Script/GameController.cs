@@ -2,27 +2,39 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
-    public PlayerController playerController;
+    public Transform playerTransform;
     public static GameController Instance;
+    public bool isPlayerDead;
+
     private void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (playerTransform == null)
         {
-            Destroy(gameObject);
+            playerTransform = FindObjectOfType<PlayerController>().transform;
         }
-        else
+
+
+        if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
+        }
+        else 
+        { 
+            Destroy(gameObject);        
         }
     }
 
-    void Start()
+
+    private void Update()
     {
-        playerController = FindObjectOfType<PlayerController>();
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
 }

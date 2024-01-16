@@ -1,57 +1,71 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] private Rigidbody rb;
     [SerializeField] private float moveSpeed;
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private Rigidbody rb;
+    [SerializeField] private Camera mainCamera;
+    [SerializeField] private Bullet bulletPrefab;
+    [SerializeField] private Transform shootPoint;
+    [SerializeField] private GameObject muzzleFlashVFX;
+    [SerializeField] private GameObject playerDeathVFX;
+
+    private float currentMoveSpeed;
+    private Vector3 movementVector;
 
     void Start()
     {
-        //rb = GetComponent<Rigidbody>();
-        characterController = GetComponent<CharacterController>();
+        rb = GetComponent<Rigidbody>();
+        mainCamera = Camera.main;
+        currentMoveSpeed = moveSpeed;
+    }
+
+    private void Update()
+    {
+        HandleInput();
+        RotatePlayerToMouse();
+        Shoot();
     }
 
     private void FixedUpdate()
     {
         MovePlayer();
-        RotatePlayerToMouse();
     }
 
     private void MovePlayer()
     {
-        // Get input axes
-        float horizontalInput = Input.GetAxisRaw("Horizontal");
-        float verticalInput = Input.GetAxisRaw("Vertical");
+        rb.velocity = movementVector * currentMoveSpeed;
+    }
 
-        // Calculate movement direction
-        Vector3 moveDirection = new Vector3(horizontalInput, 0f, verticalInput).normalized;
+    private void HandleInput()
+    {
+        movementVector = new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical")).normalized;
+        movementVector.y = 0f;
 
-        // Check if there is any input (non-zero direction)
-        if (moveDirection.magnitude >= 0.1f)
+        if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            // Rotate move direction to be relative to the camera's orientation
-            moveDirection = Camera.main.transform.TransformDirection(moveDirection);
-
-            // Ensure the y component of the movement direction is 0 to prevent flying or falling through the ground
-            moveDirection.y = 0f;
-
-            // Normalize the move vector after transformation to avoid faster diagonal movement
-            moveDirection = moveDirection.normalized;
-
-            // Calculate movement vector
-            Vector3 moveVector = moveDirection * moveSpeed * Time.deltaTime;
-
-            // Move the player
-            characterController.Move(moveVector);
+            currentMoveSpeed = moveSpeed * 2;
+        }
+    }
+  
+    private void Shoot()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.LookRotation(transform.forward));
+            GameObject flashFX = Instantiate(muzzleFlashVFX, shootPoint.position, Quaternion.LookRotation(transform.forward));
+            Destroy(bullet, 1f);
+            Destroy(flashFX, 1f);
         }
     }
 
     private void RotatePlayerToMouse()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+    {   
+        Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit))
@@ -68,14 +82,27 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    if(other.tag == "Wall")
-    //    {
-    //        // spawn particle fx
-    //        Destroy(gameObject);
-    //    }
-    //}
+    private void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Player Trigger Entered");
+        if (other.TryGetComponent(out EnemyController enemy))
+        {
+            Debug.Log("Enemy Found");
+            gameObject.SetActive(false);
+        }  
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        Debug.Log("COLLIDED WITH"+collision.collider.name);
+        if(collision.collider.TryGetComponent(out EnemyController enemy))
+        {
+            GameController.Instance.isPlayerDead = true;
+            GameObject deathVFX = Instantiate(playerDeathVFX, transform.position, Quaternion.identity);
+            Destroy(deathVFX,2f);
+            Destroy(gameObject);
+        }
+    }
 
 }
 
