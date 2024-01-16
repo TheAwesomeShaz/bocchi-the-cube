@@ -59,8 +59,8 @@ MonoBehaviour:
   moveSpeed: 10
   health: 20
   rb: {fileID: 4599006718675299319}
-  deathVFX: {fileID: 3617617696251286987, guid: cd9bffe287451734da6246ab3673c51f, type: 3}
-  hurtVFX: {fileID: 5397170160332331355, guid: 77177f88c74f3214e98cf781ded65090, type: 3}
+  deathVFX: {fileID: 3617617696251286987, guid: d256645f86407e84fa1fb16377d4e981, type: 3}
+  hurtVFX: {fileID: 5397170160332331355, guid: 488257c021aa8c94ea7e183237965d6e, type: 3}
 --- !u!54 &4599006718675299319
 Rigidbody:
   m_ObjectHideFlags: 0

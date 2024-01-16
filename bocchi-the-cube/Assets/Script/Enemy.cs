@@ -17,6 +17,7 @@ public class EnemyController : MonoBehaviour
     {
         if (health <= 0)
         {
+            GameController.Instance.PlaySound(AudioNames.Explode);
             var deathFX = Instantiate(deathVFX,transform.position,Quaternion.identity);
             Destroy(deathFX,2f);
             Destroy(gameObject);
@@ -24,6 +25,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
+            GameController.Instance.PlaySound(AudioNames.Hurt);
             var hurtFX = Instantiate(hurtVFX, transform.position, Quaternion.identity);
             Destroy(hurtFX, 2f);
             health -= bulletDamage;

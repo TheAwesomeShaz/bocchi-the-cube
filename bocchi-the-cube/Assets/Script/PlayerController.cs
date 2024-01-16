@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            GameController.Instance.PlaySound(AudioNames.Shoot);
             Bullet bullet = Instantiate(bulletPrefab, shootPoint.position, Quaternion.LookRotation(transform.forward));
             GameObject flashFX = Instantiate(muzzleFlashVFX, shootPoint.position, Quaternion.LookRotation(transform.forward));
             Destroy(bullet, 1f);
@@ -82,22 +83,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log("Player Trigger Entered");
-        if (other.TryGetComponent(out EnemyController enemy))
-        {
-            Debug.Log("Enemy Found");
-            gameObject.SetActive(false);
-        }  
-    }
-
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("COLLIDED WITH"+collision.collider.name);
         if(collision.collider.TryGetComponent(out EnemyController enemy))
         {
             GameController.Instance.isPlayerDead = true;
+            GameController.Instance.PlaySound(AudioNames.Explode);
             GameObject deathVFX = Instantiate(playerDeathVFX, transform.position, Quaternion.identity);
             Destroy(deathVFX,2f);
             Destroy(gameObject);
