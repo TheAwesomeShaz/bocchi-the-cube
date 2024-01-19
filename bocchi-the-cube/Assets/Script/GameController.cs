@@ -21,10 +21,7 @@ public class GameController : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
 
-        if (playerTransform == null)
-        {
-            playerTransform = FindObjectOfType<PlayerController>().transform;
-        }
+        
 
 
         if (Instance == null)

@@ -631,7 +631,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8304147298637028568}
-  - component: {fileID: 8436894645052184432}
   - component: {fileID: 2633396036040645291}
   - component: {fileID: 5343015718178503391}
   m_Layer: 0
@@ -657,25 +656,6 @@ Transform:
   - {fileID: 6552734898829408620}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8436894645052184432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6198436771935695249}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0d3d845f71e65ab4591950818937d0f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 15
-  rb: {fileID: 2633396036040645291}
-  mainCamera: {fileID: 0}
-  bulletPrefab: {fileID: 4251514447433488168, guid: 6d6301cf935704e4a8a432386275489d, type: 3}
-  shootPoint: {fileID: 9214122851887272081}
-  muzzleFlashVFX: {fileID: 8773274501152793519, guid: d43601c371995c141aa7f5d6641f7635, type: 3}
-  playerDeathVFX: {fileID: 4673435936958858035, guid: 0c04d8327fa26784bb0d04c8fa3fa272, type: 3}
 --- !u!54 &2633396036040645291
 Rigidbody:
   m_ObjectHideFlags: 0
